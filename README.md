@@ -8,32 +8,23 @@ A modern, bilingual (Arabic/English) e-commerce platform built with PHP and MySQ
 
 ## 📸 Screenshots / لقطات الشاشة
 
-### Home Page / الصفحة الرئيسية
-![Home Page](screenshots/homepage.png)
-*الصفحة الرئيسية - Home Page*
+Screenshots will be added soon. Please check the `screenshots/` folder for application images.
+سيتم إضافة لقطات الشاشة قريباً. يرجى مراجعة مجلد `screenshots/` لصور التطبيق.
 
-### Products Page / صفحة المنتجات
-![Products](screenshots/products.png)
-*صفحة المنتجات - Products Page*
+### Recommended Screenshots / اللقطات الموصى بها:
 
-### Product Details / تفاصيل المنتج
-![Product Details](screenshots/product-details.png)
-*صفحة تفاصيل المنتج - Product Details Page*
+- **Home Page / الصفحة الرئيسية** - Main landing page
+- **Products Page / صفحة المنتجات** - Product listing page
+- **Product Details / تفاصيل المنتج** - Individual product page
+- **Shopping Cart / سلة التسوق** - Cart management page
+- **Checkout / إتمام الطلب** - Checkout process
+- **Admin Dashboard / لوحة التحكم** - Admin control panel
+- **User Profile / الملف الشخصي** - User profile page
+- **Login / تسجيل الدخول** - Login page
+- **Orders / الطلبات** - Order history page
 
-### Shopping Cart / سلة التسوق
-![Shopping Cart](screenshots/cart.png)
-*سلة التسوق - Shopping Cart*
-
-### Admin Dashboard / لوحة التحكم
-![Admin Dashboard](screenshots/admin-dashboard.png)
-*لوحة تحكم المسؤول - Admin Dashboard*
-
-### User Profile / الملف الشخصي
-![User Profile](screenshots/profile.png)
-*الملف الشخصي للمستخدم - User Profile*
-
-> **Note / ملاحظة:** To add screenshots, place your images in the `screenshots/` folder and update the paths above.  
-> لإضافة لقطات الشاشة، ضع الصور في مجلد `screenshots/` وقم بتحديث المسارات أعلاه.
+> **Note / ملاحظة:** To add screenshots, place your images in the `screenshots/` folder with descriptive names (e.g., `homepage.png`, `products.png`).  
+> لإضافة لقطات الشاشة، ضع الصور في مجلد `screenshots/` بأسماء وصفية (مثل: `homepage.png`, `products.png`).
 
 ---
 
