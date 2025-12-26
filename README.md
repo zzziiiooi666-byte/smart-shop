@@ -6,8 +6,40 @@ A modern, bilingual (Arabic/English) e-commerce platform built with PHP and MySQ
 
 ---
 
+## 📸 Screenshots / لقطات الشاشة
+
+### Home Page / الصفحة الرئيسية
+![Home Page](screenshots/homepage.png)
+*الصفحة الرئيسية - Home Page*
+
+### Products Page / صفحة المنتجات
+![Products](screenshots/products.png)
+*صفحة المنتجات - Products Page*
+
+### Product Details / تفاصيل المنتج
+![Product Details](screenshots/product-details.png)
+*صفحة تفاصيل المنتج - Product Details Page*
+
+### Shopping Cart / سلة التسوق
+![Shopping Cart](screenshots/cart.png)
+*سلة التسوق - Shopping Cart*
+
+### Admin Dashboard / لوحة التحكم
+![Admin Dashboard](screenshots/admin-dashboard.png)
+*لوحة تحكم المسؤول - Admin Dashboard*
+
+### User Profile / الملف الشخصي
+![User Profile](screenshots/profile.png)
+*الملف الشخصي للمستخدم - User Profile*
+
+> **Note / ملاحظة:** To add screenshots, place your images in the `screenshots/` folder and update the paths above.  
+> لإضافة لقطات الشاشة، ضع الصور في مجلد `screenshots/` وقم بتحديث المسارات أعلاه.
+
+---
+
 ## 📋 Table of Contents / جدول المحتويات
 
+- [Screenshots / لقطات الشاشة](#-screenshots--لقطات-الشاشة)
 - [Features / الميزات](#features--الميزات)
 - [Technologies / التقنيات](#technologies--التقنيات)
 - [Requirements / المتطلبات](#requirements--المتطلبات)
