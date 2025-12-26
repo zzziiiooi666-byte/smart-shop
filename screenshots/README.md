@@ -3,6 +3,23 @@
 This directory contains screenshots of the Smart Shop application.
 هذا المجلد يحتوي على لقطات شاشة لتطبيق Smart Shop.
 
+## 📍 How to View on GitHub / كيفية المشاهدة على GitHub
+
+The screenshots are uploaded to GitHub. To view them:
+تم رفع لقطات الشاشة إلى GitHub. لمشاهدتها:
+
+1. Go to the repository: https://github.com/zzziiiooi666-byte/smart-shop
+2. Navigate to the `screenshots/` folder
+3. Click on any image to view it in full size
+
+أو:
+1. اذهب إلى المستودع: https://github.com/zzziiiooi666-byte/smart-shop
+2. انتقل إلى مجلد `screenshots/`
+3. انقر على أي صورة لمشاهدتها بالحجم الكامل
+
+**Note:** If you don't see the images, try refreshing the page or check the commit history.
+**ملاحظة:** إذا لم تظهر الصور، حاول تحديث الصفحة أو راجع سجل الـ commits.
+
 ## 📝 How to Add Screenshots / كيفية إضافة لقطات الشاشة
 
 ### Recommended Screenshots / اللقطات الموصى بها:
