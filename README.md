@@ -8,23 +8,41 @@ A modern, bilingual (Arabic/English) e-commerce platform built with PHP and MySQ
 
 ## 📸 Screenshots / لقطات الشاشة
 
-Screenshots will be added soon. Please check the `screenshots/` folder for application images.
-سيتم إضافة لقطات الشاشة قريباً. يرجى مراجعة مجلد `screenshots/` لصور التطبيق.
+Here are screenshots of the Smart Shop application:
+فيما يلي لقطات شاشة لتطبيق Smart Shop:
 
-### Recommended Screenshots / اللقطات الموصى بها:
+### Home Page / الصفحة الرئيسية
+![Homepage](screenshots/homepage.png)
 
-- **Home Page / الصفحة الرئيسية** - Main landing page
-- **Products Page / صفحة المنتجات** - Product listing page
-- **Product Details / تفاصيل المنتج** - Individual product page
-- **Shopping Cart / سلة التسوق** - Cart management page
-- **Checkout / إتمام الطلب** - Checkout process
-- **Admin Dashboard / لوحة التحكم** - Admin control panel
-- **User Profile / الملف الشخصي** - User profile page
-- **Login / تسجيل الدخول** - Login page
-- **Orders / الطلبات** - Order history page
+### Products Page / صفحة المنتجات
+![Products](screenshots/products.png)
 
-> **Note / ملاحظة:** To add screenshots, place your images in the `screenshots/` folder with descriptive names (e.g., `homepage.png`, `products.png`).  
-> لإضافة لقطات الشاشة، ضع الصور في مجلد `screenshots/` بأسماء وصفية (مثل: `homepage.png`, `products.png`).
+### Product Details / تفاصيل المنتج
+![Product Details](screenshots/product-details.png)
+
+### Shopping Cart / سلة التسوق
+![Cart](screenshots/cart.png)
+
+### Checkout / إتمام الطلب
+![Checkout](screenshots/checkout.png)
+
+### Admin Dashboard / لوحة التحكم
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+### User Profile / الملف الشخصي
+![Profile](screenshots/profile.png)
+
+### Login / تسجيل الدخول
+![Login](screenshots/login.png)
+
+### Register / التسجيل
+![Register](screenshots/register.png)
+
+### Orders / الطلبات
+![Orders](screenshots/orders.png)
+
+> **Note / ملاحظة:** All screenshots are stored in the `screenshots/` folder.  
+> جميع لقطات الشاشة محفوظة في مجلد `screenshots/`.
 
 ---
 
