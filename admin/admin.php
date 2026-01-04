@@ -239,9 +239,9 @@ require_once __DIR__ . '/../includes/header.php';
     <!-- Navigation Tabs -->
     <div style="margin-bottom: 30px;">
         <div style="display: flex; gap: 10px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px;">
-            <button onclick="showTab('users')" class="tab-btn active" style="padding: 10px 20px; border: none; background: var(--primary-color); color: white; border-radius: 6px; cursor: pointer;">المستخدمون</button>
-            <button onclick="showTab('products')" class="tab-btn" style="padding: 10px 20px; border: none; background: #f3f4f6; color: var(--text-color); border-radius: 6px; cursor: pointer;">المنتجات</button>
-            <button onclick="showTab('orders')" class="tab-btn" style="padding: 10px 20px; border: none; background: #f3f4f6; color: var(--text-color); border-radius: 6px; cursor: pointer;">المبيعات</button>
+            <button onclick="showTab('users', this)" class="tab-btn active" style="padding: 10px 20px; border: none; background: var(--primary-color); color: white; border-radius: 6px; cursor: pointer;">المستخدمون</button>
+            <button onclick="showTab('products', this)" class="tab-btn" style="padding: 10px 20px; border: none; background: #f3f4f6; color: var(--text-color); border-radius: 6px; cursor: pointer;">المنتجات</button>
+            <button onclick="showTab('orders', this)" class="tab-btn" style="padding: 10px 20px; border: none; background: #f3f4f6; color: var(--text-color); border-radius: 6px; cursor: pointer;">المبيعات</button>
         </div>
     </div>
 
@@ -486,20 +486,40 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 
 <script>
-function showTab(tabName) {
+function showTab(tabName, clickedButton) {
     // Hide all tabs
     const tabs = document.querySelectorAll('.tab-content');
     tabs.forEach(tab => tab.style.display = 'none');
 
     // Remove active class from all buttons
     const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.background = '#f3f4f6';
+        btn.style.color = 'var(--text-color)';
+    });
 
     // Show selected tab
-    document.getElementById(tabName + '-tab').style.display = 'block';
+    const targetTab = document.getElementById(tabName + '-tab');
+    if (targetTab) {
+        targetTab.style.display = 'block';
+    }
 
-    // Add active class to clicked button
-    event.target.classList.add('active');
+    // Add active class to clicked button or find it
+    if (clickedButton) {
+        clickedButton.classList.add('active');
+        clickedButton.style.background = 'var(--primary-color)';
+        clickedButton.style.color = 'white';
+    } else {
+        // Find the button by onclick attribute
+        buttons.forEach(btn => {
+            if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+                btn.classList.add('active');
+                btn.style.background = 'var(--primary-color)';
+                btn.style.color = 'white';
+            }
+        });
+    }
 }
 
 // Add CSS for active tab button (only if not already added)
@@ -691,6 +711,14 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSelectedCount();
         });
     });
+    
+    // Check URL parameter for tab navigation
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam && ['users', 'products', 'orders'].includes(tabParam)) {
+        // Use the showTab function to switch to the requested tab
+        showTab(tabParam);
+    }
 });
 </script>
 

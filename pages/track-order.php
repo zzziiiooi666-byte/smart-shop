@@ -8,9 +8,21 @@ $db = getDB();
 $userId = $_SESSION['user_id'];
 
 $trackingNumber = $_GET['tracking'] ?? '';
+$notificationId = isset($_GET['notification_id']) ? (int)$_GET['notification_id'] : 0;
 
 if (empty($trackingNumber)) {
     redirect(SITE_URL . '/pages/orders.php');
+}
+
+// تحديد الإشعار كمقروء إذا كان معرف الإشعار موجوداً
+if ($notificationId > 0) {
+    try {
+        $stmt = $db->prepare("UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ? AND is_read = 0");
+        $stmt->execute([$notificationId, $userId]);
+    } catch (Exception $e) {
+        // Silently fail if there's an error
+        error_log("Error marking notification as read: " . $e->getMessage());
+    }
 }
 
 // الحصول على معلومات الطلب

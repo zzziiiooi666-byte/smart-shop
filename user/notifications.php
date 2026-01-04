@@ -75,11 +75,33 @@ require_once __DIR__ . '/../includes/header.php';
                             <p style="color: #6b7280; margin-bottom: 10px; line-height: 1.6;">
                                 <?php echo htmlspecialchars($notification['message']); ?>
                             </p>
+                            
+                            <!-- Action buttons for admin notifications -->
+                            <?php if (isAdmin() && $notification['order_id'] && $notification['type'] === 'order_created'): ?>
+                                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <a href="<?php echo SITE_URL; ?>/admin/admin.php?tab=orders" 
+                                       style="background: var(--primary-color); color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; display: inline-block;">
+                                        <i class="fas fa-shopping-cart" style="margin-left: 5px;"></i> الذهاب إلى إدارة المبيعات
+                                    </a>
+                                    <a href="<?php echo SITE_URL; ?>/pages/order-details.php?id=<?php echo $notification['order_id']; ?>" 
+                                       style="background: #10b981; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; display: inline-block;">
+                                        <i class="fas fa-eye" style="margin-left: 5px;"></i> عرض تفاصيل الطلب
+                                    </a>
+                                </div>
+                            <?php elseif ($notification['order_id'] && !isAdmin()): ?>
+                                <div style="margin-top: 15px;">
+                                    <a href="<?php echo SITE_URL; ?>/pages/order-details.php?id=<?php echo $notification['order_id']; ?>" 
+                                       style="background: var(--primary-color); color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 14px; display: inline-block;">
+                                        <i class="fas fa-eye" style="margin-left: 5px;"></i> عرض تفاصيل الطلب
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+                            
                             <?php if ($notification['tracking_number']): ?>
                                 <div style="background: #f3f4f6; padding: 10px; border-radius: 6px; margin-top: 10px;">
                                     <p style="margin: 0; font-size: 14px;">
                                         <strong>رقم التتبع:</strong> 
-                                        <a href="<?php echo SITE_URL; ?>/track-order.php?tracking=<?php echo htmlspecialchars($notification['tracking_number']); ?>" 
+                                        <a href="<?php echo SITE_URL; ?>/pages/track-order.php?tracking=<?php echo htmlspecialchars($notification['tracking_number']); ?>&notification_id=<?php echo $notification['id']; ?>" 
                                            style="color: var(--primary-color); text-decoration: none; font-weight: 600;">
                                             <?php echo htmlspecialchars($notification['tracking_number']); ?>
                                         </a>

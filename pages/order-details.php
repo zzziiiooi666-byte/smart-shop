@@ -1,19 +1,21 @@
 <?php
 $pageTitle = 'تفاصيل الطلب';
 require_once __DIR__ . '/../config/config.php';
-
-// Check if user is logged in and is admin
-if (!isLoggedIn() || !isAdmin()) {
-    redirect(SITE_URL . '/auth/login.php');
-}
+requireLogin();
 
 require_once __DIR__ . '/../config/database.php';
 $db = getDB();
+$userId = $_SESSION['user_id'];
+$isAdmin = isAdmin();
 
 $order_id = (int)($_GET['id'] ?? 0);
 
 if (!$order_id) {
-    redirect(SITE_URL . '/admin/admin.php');
+    if ($isAdmin) {
+        redirect(SITE_URL . '/admin/admin.php');
+    } else {
+        redirect(SITE_URL . '/pages/orders.php');
+    }
 }
 
 // Get order details
@@ -31,7 +33,17 @@ $stmt->execute([$order_id]);
 $order = $stmt->fetch();
 
 if (!$order) {
-    redirect(SITE_URL . '/admin/admin.php');
+    if ($isAdmin) {
+        redirect(SITE_URL . '/admin/admin.php');
+    } else {
+        redirect(SITE_URL . '/pages/orders.php');
+    }
+}
+
+// Check if user has permission to view this order
+// Admins can view all orders, regular users can only view their own orders
+if (!$isAdmin && $order['user_id'] != $userId) {
+    redirect(SITE_URL . '/pages/orders.php');
 }
 
 require_once __DIR__ . '/../includes/header.php';
@@ -42,9 +54,15 @@ require_once __DIR__ . '/../includes/header.php';
         <h1 style="color: var(--primary-color); margin: 0;">
             تفاصيل الطلب #<?php echo $order['id']; ?>
         </h1>
-        <a href="<?php echo SITE_URL; ?>/admin/admin.php" style="background: #6b7280; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">
-            العودة للوحة التحكم
-        </a>
+        <?php if ($isAdmin): ?>
+            <a href="<?php echo SITE_URL; ?>/admin/admin.php?tab=orders" style="background: #6b7280; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">
+                العودة للوحة التحكم
+            </a>
+        <?php else: ?>
+            <a href="<?php echo SITE_URL; ?>/pages/orders.php" style="background: #6b7280; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">
+                العودة إلى طلباتي
+            </a>
+        <?php endif; ?>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
@@ -117,7 +135,8 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
         </div>
 
-        <!-- Customer Information -->
+        <!-- Customer Information (only for admins) -->
+        <?php if ($isAdmin): ?>
         <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
             <h2 style="margin-bottom: 20px; color: var(--text-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">
                 معلومات العميل
@@ -140,6 +159,21 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
             </div>
         </div>
+        <?php else: ?>
+        <!-- User Information (for regular users) -->
+        <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h2 style="margin-bottom: 20px; color: var(--text-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">
+                معلومات المستلم
+            </h2>
+
+            <div style="display: grid; gap: 15px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <strong>الاسم:</strong>
+                    <span><?php echo htmlspecialchars($order['first_name'] . ' ' . $order['last_name']); ?></span>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
 
         <!-- Shipping Address -->
         <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); grid-column: 1 / -1;">
@@ -184,13 +218,14 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
         <?php endif; ?>
 
-        <!-- Order Actions -->
+        <!-- Order Actions (only for admins) -->
+        <?php if ($isAdmin): ?>
         <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); grid-column: 1 / -1;">
             <h2 style="margin-bottom: 20px; color: var(--text-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">
                 إجراءات الطلب
             </h2>
 
-            <form method="POST" action="<?php echo SITE_URL; ?>/admin.php" style="display: inline;">
+            <form method="POST" action="<?php echo SITE_URL; ?>/admin/admin.php" style="display: inline;">
                 <input type="hidden" name="action" value="update_order_status">
                 <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
 
@@ -204,6 +239,28 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
             </form>
         </div>
+        <?php endif; ?>
+        
+        <!-- Tracking Number (for all users) -->
+        <?php if (!empty($order['tracking_number'])): ?>
+        <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); grid-column: 1 / -1;">
+            <h2 style="margin-bottom: 20px; color: var(--text-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px;">
+                تتبع الطلب
+            </h2>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <p style="margin: 0; font-size: 16px;">
+                    <strong>رقم التتبع:</strong> 
+                    <code style="background: #f3f4f6; padding: 6px 12px; border-radius: 4px; font-size: 14px; margin-right: 10px;">
+                        <?php echo htmlspecialchars($order['tracking_number']); ?>
+                    </code>
+                </p>
+                <a href="<?php echo SITE_URL; ?>/pages/track-order.php?tracking=<?php echo htmlspecialchars($order['tracking_number']); ?>" 
+                   style="background: var(--primary-color); color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-size: 14px;">
+                    <i class="fas fa-search" style="margin-left: 5px;"></i> تتبع الشحنة
+                </a>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </div>
 

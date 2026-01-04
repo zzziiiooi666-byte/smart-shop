@@ -30,13 +30,19 @@ require_once __DIR__ . '/../../config/database.php';
 $db = getDB();
 
 // Check if product exists and has stock
-$stmt = $db->prepare("SELECT id, quantity as stock FROM products WHERE id = ?");
+$stmt = $db->prepare("SELECT id, name, quantity as stock FROM products WHERE id = ?");
 $stmt->execute([$productId]);
 $product = $stmt->fetch();
 
 if (!$product) {
     jsonResponse(['success' => false, 'message' => 'المنتج غير موجود'], 404);
 }
+
+// Get user name for notification
+$stmt = $db->prepare("SELECT name FROM users WHERE id = ?");
+$stmt->execute([$userId]);
+$user = $stmt->fetch();
+$userName = $user['name'] ?? 'مستخدم';
 
 // Check stock availability
 if (isset($product['stock']) && $product['stock'] < $quantity) {
@@ -59,11 +65,49 @@ if ($existingItem) {
     
     $stmt = $db->prepare("UPDATE cart SET quantity = ? WHERE id = ?");
     $stmt->execute([$newQuantity, $existingItem['id']]);
+    
+    // Send notification to all admin users when updating cart quantity
+    try {
+        $stmt = $db->prepare("SELECT id FROM users WHERE isAdmin = 1");
+        $stmt->execute();
+        $admins = $stmt->fetchAll();
+        
+        $productName = $product['name'] ?? 'منتج';
+        $message = "تم تحديث كمية منتج في السلة: {$productName} (الكمية الجديدة: {$newQuantity}) من قبل المستخدم: {$userName}";
+        
+        foreach ($admins as $admin) {
+            $stmt = $db->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, 'general')");
+            $stmt->execute([$admin['id'], 'تحديث السلة', $message]);
+        }
+    } catch (Exception $e) {
+        // Silently fail if notifications table doesn't exist or there's an error
+        error_log("Notification error: " . $e->getMessage());
+    }
+    
     jsonResponse(['success' => true, 'message' => 'تم تحديث الكمية']);
 } else {
     // Add new item
     $stmt = $db->prepare("INSERT INTO cart (user_id, product_id, quantity, color, size) VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([$userId, $productId, $quantity, $color, $size]);
+    
+    // Send notification to all admin users
+    try {
+        $stmt = $db->prepare("SELECT id FROM users WHERE isAdmin = 1");
+        $stmt->execute();
+        $admins = $stmt->fetchAll();
+        
+        $productName = $product['name'] ?? 'منتج';
+        $message = "تمت إضافة منتج إلى السلة: {$productName} (الكمية: {$quantity}) من قبل المستخدم: {$userName}";
+        
+        foreach ($admins as $admin) {
+            $stmt = $db->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, ?, ?, 'general')");
+            $stmt->execute([$admin['id'], 'إضافة منتج إلى السلة', $message]);
+        }
+    } catch (Exception $e) {
+        // Silently fail if notifications table doesn't exist or there's an error
+        error_log("Notification error: " . $e->getMessage());
+    }
+    
     jsonResponse(['success' => true, 'message' => 'تمت إضافة المنتج إلى السلة']);
 }
 
