@@ -12,7 +12,7 @@ $order_id = (int)($_GET['id'] ?? 0);
 
 if (!$order_id) {
     if ($isAdmin) {
-        redirect(SITE_URL . '/admin/admin.php');
+    redirect(SITE_URL . '/admin/admin.php');
     } else {
         redirect(SITE_URL . '/pages/orders.php');
     }
@@ -34,7 +34,7 @@ $order = $stmt->fetch();
 
 if (!$order) {
     if ($isAdmin) {
-        redirect(SITE_URL . '/admin/admin.php');
+    redirect(SITE_URL . '/admin/admin.php');
     } else {
         redirect(SITE_URL . '/pages/orders.php');
     }
@@ -56,8 +56,8 @@ require_once __DIR__ . '/../includes/header.php';
         </h1>
         <?php if ($isAdmin): ?>
             <a href="<?php echo SITE_URL; ?>/admin/admin.php?tab=orders" style="background: #6b7280; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">
-                العودة للوحة التحكم
-            </a>
+            العودة للوحة التحكم
+        </a>
         <?php else: ?>
             <a href="<?php echo SITE_URL; ?>/pages/orders.php" style="background: #6b7280; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">
                 العودة إلى طلباتي
